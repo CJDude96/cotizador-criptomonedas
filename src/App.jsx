@@ -1,9 +1,16 @@
 import { useState } from 'react'
+import styled from '@emotion/styled'
+
+const Heading = styled.h1`
+  font-family: 'lato', sans-serif;
+  color: #fff;
+`
+
 
 const App = () =>{
   return (
     <>
-      <h1>APP</h1>
+      <Heading>APP</Heading>
     </>
   )
 }
