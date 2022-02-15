@@ -32,7 +32,7 @@ const Heading = styled.h1`
   }
 `
 const Image = styled.img`
-  display: block
+  display: block;
   margin: 100px auto 0 auto;
   max-width: 400px;
   width: 80%;
