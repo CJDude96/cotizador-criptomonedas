@@ -1,7 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import styled from '@emotion/styled'
 import CriptoImage from './img/imagen-criptos.png'
 import Forms from './components/Forms'
+import Results from './components/Results'
+import Spinner from './components/Spinner'
 
 const Container = styled.div`
 margin: 0 auto;
@@ -39,6 +41,26 @@ const Image = styled.img`
 `
 
 const App = () =>{
+
+  const [coins, setCoins] = useState({})
+  const [results, setResults] = useState({})
+  const [loading, setLoading] = useState(false)
+
+  const getCrypto = async ({countryCoin,cryptoCoin}) =>{
+    setLoading(true)
+    const url =`https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${cryptoCoin}&tsyms=${countryCoin}`
+    const res = await (await fetch(url)).json()
+
+    setResults(res.DISPLAY[cryptoCoin][countryCoin])
+    
+    setLoading(false)
+  }
+  useEffect(() =>{
+    if(Object.keys(coins).length>0){
+      getCrypto(coins)
+    }
+  },[coins])
+
   return (
     <Container>
       <Image
@@ -48,7 +70,11 @@ const App = () =>{
 
       <div>
         <Heading>Watch cryptocurrencies values instantly</Heading>
-        <Forms/>
+        <Forms
+          setCoins={setCoins}
+        />
+        {loading && <Spinner/>}
+        {results.PRICE && <Results results={results}/>}
       </div>
     </Container>
   )
